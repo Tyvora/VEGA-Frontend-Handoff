@@ -1,0 +1,14 @@
+{
+ "$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,
+ "required":["schema_version","preparation_version","package_id","created_at","capability","request_id","product_id","observation_id","collection","detector","processing_version","source_sha256","references","array_specs","units","coordinate_frame","pixel_axis_order","array_shape","wcs_header","observation_metadata","spectral_metadata","decision"],
+ "properties":{
+ "schema_version":{"const":"1.0"},"preparation_version":{"const":"vega-packaging-1.0"},"package_id":{"type":"string","format":"uuid"},"created_at":{"type":"string","format":"date-time"},
+ "capability":{"enum":["sky_visualization","source_detection","photometry","background_estimation","temporal_comparison","spectral_analysis"]},
+ "request_id":{"type":"string","minLength":1},"product_id":{"type":"string","minLength":1},"observation_id":{"type":["string","null"]},"collection":{"type":["string","null"]},"detector":{"type":["number","string","null"]},"processing_version":{"type":["string","null"]},"source_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+ "references":{"type":"object","required":["extraction","technical_validation","quality_validation","readiness_report","original_fits","tables"],"additionalProperties":{"type":"string","minLength":1}},
+ "array_specs":{"type":"object","required":["IMAGE","VARIANCE","FLAGS","analysis_mask","background_mask"],"additionalProperties":{"type":"object","required":["shape","dtype"],"additionalProperties":false,"properties":{"shape":{"type":"array","minItems":2,"maxItems":2,"items":{"type":"integer","minimum":1}},"dtype":{"type":"string","minLength":1}}}},
+ "units":{"type":"object","required":["IMAGE","VARIANCE"],"additionalProperties":{"type":["string","null"]},"properties":{"IMAGE":{"type":"string","minLength":1},"VARIANCE":{"type":"string","minLength":1}}},
+ "coordinate_frame":{"const":"ICRS"},"pixel_axis_order":{"const":"arrays[row,column]; WCS(x=column,y=row), origin=0"},"array_shape":{"type":"array","minItems":2,"maxItems":2,"items":{"type":"integer","minimum":1}},"wcs_header":{"type":"string","minLength":1},"observation_metadata":{"type":"object"},"spectral_metadata":{"type":"object"},
+ "decision":{"type":"object","required":["status","allow_preparation","allow_scientific_execution","reason_codes","missing_requirements","execution_conditions","policy_version"],"properties":{"status":{"enum":["ready","conditional"]},"allow_preparation":{"const":true},"allow_scientific_execution":{"type":"boolean"},"reason_codes":{"type":"array"},"missing_requirements":{"type":"array"},"execution_conditions":{"type":"array"},"policy_version":{"type":"string"}},"allOf":[{"if":{"properties":{"status":{"const":"conditional"}}},"then":{"properties":{"allow_scientific_execution":{"const":false}}}}]}
+ }
+}

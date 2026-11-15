@@ -1,0 +1,21 @@
+{
+ "$schema":"https://json-schema.org/draft/2020-12/schema", "title":"Explorer normalized request: degrees, ICRS", "type":"object", "additionalProperties":false,
+ "required":["schema_version","request_id","input_method","original_input","target_name","canonical_name","ra_deg","dec_deg","coordinate_frame","coordinate_reference","resolver_source","resolution_status","region_shape","fov_deg","fov_source","goal","status","warnings"],
+ "properties":{
+  "schema_version":{"const":"1.0"},"request_id":{"type":"string","pattern":"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"},
+  "input_method":{"enum":["name","coordinates","preset"]},"original_input":{},"target_name":{"type":["string","null"]},"canonical_name":{"type":["string","null"]},
+  "ra_deg":{"type":["number","null"],"minimum":0,"exclusiveMaximum":360},"dec_deg":{"type":["number","null"],"minimum":-90,"maximum":90},"coordinate_frame":{"const":"icrs"},
+  "coordinate_reference":{"type":["string","null"]},"resolver_source":{"type":["string","null"]},"resolver_endpoint":{"type":"string"},"retrieved_at":{"type":"string","format":"date-time"},
+  "resolution_status":{"enum":[null,"resolved","ambiguous","not_found","invalid_input","unsupported_target","service_unavailable","resolver_error"]},
+  "region_shape":{"const":"circle"},"fov_deg":{"type":"number","exclusiveMinimum":0},"fov_source":{"enum":["default","user","preset"]},"goal":{"enum":["sky_viewer","timeline","discoveries"]},"status":{"enum":["ready_for_validation","needs_resolution"]},"warnings":{"type":"array","items":{"type":"string"}},
+  "preset_id":{"type":"string"},"preset_version":{"type":"string"},"candidates":{"type":"array","minItems":2,"items":{"type":"object","additionalProperties":false,"required":["canonical_name","ra_deg","dec_deg","resolver_source","coordinate_reference","identifier"],"properties":{"canonical_name":{"type":"string","minLength":1},"ra_deg":{"type":"number","minimum":0,"exclusiveMaximum":360},"dec_deg":{"type":"number","minimum":-90,"maximum":90},"resolver_source":{"type":"string","minLength":1},"coordinate_reference":{"type":["string","null"]},"identifier":{"type":["string","null"]}}}}
+ },
+ "allOf":[
+  {"if":{"properties":{"input_method":{"const":"name"}}},"then":{"properties":{"original_input":{"type":"string"},"target_name":{"type":"string"},"resolution_status":{"type":"string"}},"not":{"anyOf":[{"required":["preset_id"]},{"required":["preset_version"]}]}},"else":{"properties":{"resolution_status":{"type":"null"},"target_name":{"type":"null"},"canonical_name":{"type":"null"},"resolver_source":{"type":"null"},"status":{"const":"ready_for_validation"},"ra_deg":{"type":"number"},"dec_deg":{"type":"number"}},"not":{"required":["candidates"]}}},
+  {"if":{"properties":{"input_method":{"const":"coordinates"}}},"then":{"properties":{"original_input":{"type":"object","required":["ra","dec"],"additionalProperties":false,"properties":{"ra":{"type":["number","string"]},"dec":{"type":["number","string"]}}}},"not":{"anyOf":[{"required":["preset_id"]},{"required":["preset_version"]}]}}},
+  {"if":{"properties":{"input_method":{"const":"preset"}}},"then":{"required":["preset_id","preset_version"],"properties":{"original_input":{"type":"string"}}}},
+  {"if":{"properties":{"resolution_status":{"const":"resolved"}}},"then":{"properties":{"ra_deg":{"type":"number"},"dec_deg":{"type":"number"},"canonical_name":{"type":"string","minLength":1},"resolver_source":{"type":"string","minLength":1},"status":{"const":"ready_for_validation"}}}},
+  {"if":{"properties":{"input_method":{"const":"name"},"resolution_status":{"not":{"const":"resolved"}}}},"then":{"properties":{"ra_deg":{"type":"null"},"dec_deg":{"type":"null"},"canonical_name":{"type":"null"},"status":{"const":"needs_resolution"}}}},
+  {"if":{"properties":{"resolution_status":{"const":"ambiguous"}}},"then":{"required":["candidates"]},"else":{"not":{"required":["candidates"]}}}
+ ]
+}

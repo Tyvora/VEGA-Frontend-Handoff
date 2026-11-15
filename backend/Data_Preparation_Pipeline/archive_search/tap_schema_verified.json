@@ -1,0 +1,647 @@
+{
+  "query": "SELECT table_name,column_name,datatype,description FROM TAP_SCHEMA.columns WHERE table_name IN ('spherex.artifact','spherex.plane','spherex.observation')",
+  "columns": [
+    {
+      "table_name": "spherex.artifact",
+      "column_name": "planeid",
+      "datatype": "char",
+      "description": "foreign key: caom.plane.planeid"
+    },
+    {
+      "table_name": "spherex.artifact",
+      "column_name": "artifactid",
+      "datatype": "char",
+      "description": "unique artifact identifier: 32-bit UUID"
+    },
+    {
+      "table_name": "spherex.artifact",
+      "column_name": "uri",
+      "datatype": "char",
+      "description": "artifact access url"
+    },
+    {
+      "table_name": "spherex.artifact",
+      "column_name": "producttype",
+      "datatype": "char",
+      "description": "product type (e.g. science, calibration, auxiliary, preview, info)"
+    },
+    {
+      "table_name": "spherex.artifact",
+      "column_name": "releasetype",
+      "datatype": "char",
+      "description": "release type (data, meta)"
+    },
+    {
+      "table_name": "spherex.artifact",
+      "column_name": "contenttype",
+      "datatype": "char",
+      "description": "artifact file type"
+    },
+    {
+      "table_name": "spherex.artifact",
+      "column_name": "contentlength",
+      "datatype": "long",
+      "description": "artifact size in bytes"
+    },
+    {
+      "table_name": "spherex.artifact",
+      "column_name": "contentchecksum",
+      "datatype": "char",
+      "description": "checksum of the content (URI of the form {algorithm}:{hex value})"
+    },
+    {
+      "table_name": "spherex.artifact",
+      "column_name": "ipac_gid",
+      "datatype": "int",
+      "description": "IRSA access control identifier: group ID"
+    },
+    {
+      "table_name": "spherex.artifact",
+      "column_name": "mission_id",
+      "datatype": "int",
+      "description": "IRSA access control identifier: mission ID"
+    },
+    {
+      "table_name": "spherex.artifact",
+      "column_name": "ipac_pub_date",
+      "datatype": "char",
+      "description": "public release date (UTC)"
+    },
+    {
+      "table_name": "spherex.artifact",
+      "column_name": "lastmodified",
+      "datatype": "char",
+      "description": "timestamp of last modification of this row"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "obsid",
+      "datatype": "char",
+      "description": "unique observation identifier: 32-bit UUID"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "collection",
+      "datatype": "char",
+      "description": "data collection this observation belongs to"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "observationid",
+      "datatype": "char",
+      "description": "unique observation identifier (human readable)"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "metarelease",
+      "datatype": "char",
+      "description": "metadata public release date"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "sequencenumber",
+      "datatype": "int",
+      "description": "sequence number of the observation"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "type",
+      "datatype": "char",
+      "description": "type of data, often from FITS OBSTYPE keyword, e.g. exposure, spectrum, object, dark"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "intent",
+      "datatype": "char",
+      "description": "intended purpose of data (one of: science, calibration)"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "algorithm_name",
+      "datatype": "char",
+      "description": "algorithm that defines the observation (e.g. exposure, coadd, cube)"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "telescope_name",
+      "datatype": "char",
+      "description": "name of telescope used to acquire observation"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "telescope_geolocationx",
+      "datatype": "double",
+      "description": "x component of geocentric location of telescope"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "telescope_geolocationy",
+      "datatype": "double",
+      "description": "y component of geocentric location of telescope"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "telescope_geolocationz",
+      "datatype": "double",
+      "description": "z component of geocentric location of telescope"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "telescope_keywords",
+      "datatype": "char",
+      "description": "telescope keywords (JSON of key/value pairs)"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "instrument_name",
+      "datatype": "char",
+      "description": "name of instrument used to acquire observation"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "instrument_keywords",
+      "datatype": "char",
+      "description": "instrument keywords (JSON of key/value pairs)"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "environment_seeing",
+      "datatype": "double",
+      "description": "atmospheric seeing (FWHM)"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "environment_humidity",
+      "datatype": "double",
+      "description": "humidity at telescope during observation"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "environment_elevation",
+      "datatype": "double",
+      "description": "elevation above horizon (0 to 90)"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "environment_tau",
+      "datatype": "double",
+      "description": "zenith optical depth"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "environment_wavelengthtau",
+      "datatype": "double",
+      "description": "wavelength at which Tau has been measured"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "environment_ambienttemp",
+      "datatype": "double",
+      "description": "ambient temperature telescope during observation"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "environment_photometric",
+      "datatype": "boolean",
+      "description": "conditions were photometric (0=false, 1=true)"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "proposal_id",
+      "datatype": "char",
+      "description": "collection-specific unique proposal identifier"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "proposal_pi",
+      "datatype": "char",
+      "description": "proposal principal investigator"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "proposal_project",
+      "datatype": "char",
+      "description": "project that created/acquired the observation"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "proposal_title",
+      "datatype": "char",
+      "description": "proposal title"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "proposal_keywords",
+      "datatype": "char",
+      "description": "proposal keywords (JSON of key/value pairs)"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "target_name",
+      "datatype": "char",
+      "description": "name of intended target"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "target_type",
+      "datatype": "char",
+      "description": "classification of intended target"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "target_redshift",
+      "datatype": "double",
+      "description": "redshift of intended target"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "target_standard",
+      "datatype": "boolean",
+      "description": "intended target is a standard (0=false, 1=true)"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "target_moving",
+      "datatype": "boolean",
+      "description": "flag for moving target"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "target_keywords",
+      "datatype": "char",
+      "description": "target keywords (JSON of key/value pairs)"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "targetposition_coordinates",
+      "datatype": "char",
+      "description": "coordiantes of the target position"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "targetposition_coordsys",
+      "datatype": "char",
+      "description": "coordinate system for target position"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "targetposition_equinox",
+      "datatype": "double",
+      "description": "equinox of target position coordinate system"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "requirements_flag",
+      "datatype": "char",
+      "description": "flag describing satisfied proposal requirements (possible values: fail,null)"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "ipac_gid",
+      "datatype": "int",
+      "description": "IRSA access control identifier: group ID"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "mission_id",
+      "datatype": "int",
+      "description": "IRSA access control identifier: mission ID"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "ipac_pub_date",
+      "datatype": "char",
+      "description": "public release date (UTC)"
+    },
+    {
+      "table_name": "spherex.observation",
+      "column_name": "lastmodified",
+      "datatype": "char",
+      "description": "timestamp of last modification of this row"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "obsid",
+      "datatype": "char",
+      "description": "foreign key: caom.observation.obsid"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "planeid",
+      "datatype": "char",
+      "description": "unique plane identifier: 32-bit UUID"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "productid",
+      "datatype": "char",
+      "description": "name of this product"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "creatorid",
+      "datatype": "char",
+      "description": "unique creator identifier for this product"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "metarelease",
+      "datatype": "char",
+      "description": "date the metadata for a plane is public (UTC)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "datarelease",
+      "datatype": "char",
+      "description": "public release date"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "calibrationlevel",
+      "datatype": "short",
+      "description": "IVOA ObsCore calibration level   (-1,0,1,2,3,4)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "dataproducttype",
+      "datatype": "char",
+      "description": "IVOA ObsCore data product type + extensions"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "quality_flag",
+      "datatype": "char",
+      "description": "flag describing the data quality"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "metrics_sourcenumberdensity",
+      "datatype": "double",
+      "description": "number density of sources"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "metrics_background",
+      "datatype": "double",
+      "description": "background intensity"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "metrics_backgroundstddev",
+      "datatype": "double",
+      "description": "standard deviation in background"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "metrics_fluxdensitylimit",
+      "datatype": "double",
+      "description": "flux density limit where S:N=5 for point source"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "metrics_maglimit",
+      "datatype": "double",
+      "description": "AB magnitude limit where S:N=5 for point source"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "position_dimension_naxis1",
+      "datatype": "long",
+      "description": "dimensions (number of pixels) along one spatial axis"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "position_dimension_naxis2",
+      "datatype": "long",
+      "description": "dimensions (number of pixels) along other spatial axis"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "position_resolution",
+      "datatype": "double",
+      "description": "median spatial resolution (FWHM)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "position_samplesize",
+      "datatype": "double",
+      "description": "median sample (pixel) size on spatial axes"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "position_timedependent",
+      "datatype": "boolean",
+      "description": "flag indicating that the position is time-dependent (0=false, 1=true)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "energy_bounds_lower",
+      "datatype": "double",
+      "description": "lower bound on energy axis (barycentric wavelength)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "energy_bounds_upper",
+      "datatype": "double",
+      "description": "upper bound on energy axis (barycentric wavelength)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "energy_bounds_samples",
+      "datatype": "double",
+      "description": "detailed energy coverage (barycentric wavelength)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "energy_emband",
+      "datatype": "char",
+      "description": "comma-separated energy band names (e.g. Infrared, Optical)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "energy_dimension",
+      "datatype": "long",
+      "description": "dimension (number of pixels) along energy axis"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "energy_resolvingpower",
+      "datatype": "double",
+      "description": "median spectral resolving power (R)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "energy_samplesize",
+      "datatype": "double",
+      "description": "median sample (pixel) size on energy axis"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "energy_bandpassname",
+      "datatype": "char",
+      "description": "collection-specific name for energy band (e.g. filter name)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "energy_transition_species",
+      "datatype": "char",
+      "description": "atom or molecule"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "energy_transition_transition",
+      "datatype": "char",
+      "description": "specific energy transition of species"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "energy_restwav",
+      "datatype": "double",
+      "description": "rest wavelength of target spectral feature (barycentric)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "time_bounds_lower",
+      "datatype": "double",
+      "description": "lower bound on time axis (Modified Julian Day)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "time_bounds_upper",
+      "datatype": "double",
+      "description": "upper bound on time axis (Modified Julian Day)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "time_bounds_samples",
+      "datatype": "double",
+      "description": "detailed time coverage (Modified Julian Day)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "time_dimension",
+      "datatype": "long",
+      "description": "dimension (number of pixels) along time axis"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "time_resolution",
+      "datatype": "double",
+      "description": "median resolution on the time axis"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "time_samplesize",
+      "datatype": "double",
+      "description": "median sample (pixel) size on time axis"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "time_exposure",
+      "datatype": "double",
+      "description": "median exposure time per pixel"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "polarization_states",
+      "datatype": "char",
+      "description": "polarization letter codes - not populated at IRSA"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "polarization_dimension",
+      "datatype": "long",
+      "description": "number of samples (pixels) along polarization axis"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "provenance_name",
+      "datatype": "char",
+      "description": "name of the process that created this plane"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "provenance_reference",
+      "datatype": "char",
+      "description": "external reference (URL)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "provenance_version",
+      "datatype": "char",
+      "description": "version of the process/software"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "provenance_project",
+      "datatype": "char",
+      "description": "responsible entity (e.g. person)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "provenance_producer",
+      "datatype": "char",
+      "description": "responsible entity (e.g. person)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "provenance_runid",
+      "datatype": "char",
+      "description": "responsible entity (e.g. person)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "provenance_lastexecuted",
+      "datatype": "char",
+      "description": "date this process was last executed"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "provenance_keywords",
+      "datatype": "char",
+      "description": "provenance keywords (JSON of key/value pairs)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "ipac_gid",
+      "datatype": "int",
+      "description": "IRSA access control identifier: group ID"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "mission_id",
+      "datatype": "int",
+      "description": "IRSA access control identifier: mission ID"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "poly",
+      "datatype": "char",
+      "description": "IRSA internal spatial index descriptor"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "pt",
+      "datatype": "char",
+      "description": "IRSA internal spatial index descriptor"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "ipac_pub_date",
+      "datatype": "char",
+      "description": "public release date (UTC)"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "lastmodified",
+      "datatype": "char",
+      "description": "timestamp of last modification of this row"
+    },
+    {
+      "table_name": "spherex.plane",
+      "column_name": "obs_publisher_did",
+      "datatype": "char",
+      "description": "IVOA ID for the dataset, assigned by the publisher (IRSA)"
+    }
+  ]
+}

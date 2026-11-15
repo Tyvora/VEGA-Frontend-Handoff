@@ -1,0 +1,5 @@
+numpy==2.3.5
+astropy==8.0.2
+pyvo==1.10.0
+requests==2.34.2
+jsonschema==4.26.0
