@@ -1,0 +1,497 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vega.example/contracts/discoveries/response.schema.json",
+  "allOf": [
+    {
+      "$ref": "../shared/common.schema.json#/$defs/Envelope"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "interface": {
+          "const": "discoveries"
+        },
+        "data": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "candidates": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "candidate_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "candidate_type": {
+                    "enum": [
+                      "moving_source",
+                      "brightness_change",
+                      "newly_visible",
+                      "disappearing",
+                      "unclassified_anomaly"
+                    ]
+                  },
+                  "is_mock": {
+                    "type": "boolean"
+                  },
+                  "position": {
+                    "$ref": "../shared/common.schema.json#/$defs/Position"
+                  },
+                  "supporting_observation_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "product_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "observation_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "asset": {
+                          "$ref": "../shared/common.schema.json#/$defs/Asset"
+                        },
+                        "role": {
+                          "enum": [
+                            "reference",
+                            "comparison",
+                            "difference"
+                          ]
+                        },
+                        "is_mock": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "product_id",
+                        "observation_id",
+                        "asset",
+                        "role",
+                        "is_mock"
+                      ]
+                    }
+                  },
+                  "measurements": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "../shared/common.schema.json#/$defs/Measurement"
+                    }
+                  },
+                  "uncertainty_status": {
+                    "enum": [
+                      "reported",
+                      "not_reported"
+                    ]
+                  },
+                  "validation_status": {
+                    "enum": [
+                      "unreviewed",
+                      "reviewed_candidate",
+                      "rejected"
+                    ]
+                  },
+                  "detection_method": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "version": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "version"
+                    ]
+                  },
+                  "motion": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "positions": {
+                            "type": "array",
+                            "minItems": 2,
+                            "items": {
+                              "$ref": "../shared/common.schema.json#/$defs/Position"
+                            }
+                          },
+                          "time_reference": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "model": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "uncertainty_status": {
+                            "enum": [
+                              "reported",
+                              "not_reported"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "positions",
+                          "time_reference",
+                          "model",
+                          "uncertainty_status"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "warnings": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "../shared/common.schema.json#/$defs/Issue"
+                    }
+                  },
+                  "missing_scientific_requirements": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "required": [
+                  "candidate_id",
+                  "candidate_type",
+                  "is_mock",
+                  "position",
+                  "supporting_observation_ids",
+                  "evidence",
+                  "measurements",
+                  "uncertainty_status",
+                  "validation_status",
+                  "detection_method",
+                  "motion",
+                  "warnings",
+                  "missing_scientific_requirements"
+                ]
+              }
+            },
+            "page": {
+              "$ref": "../shared/common.schema.json#/$defs/Page"
+            },
+            "available_candidate_types": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "enum": [
+                  "moving_source",
+                  "brightness_change",
+                  "newly_visible",
+                  "disappearing",
+                  "unclassified_anomaly"
+                ]
+              }
+            },
+            "execution_reference": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "scientific_products": {
+              "type": "array",
+              "items": {
+                "$ref": "../shared/common.schema.json#/$defs/ScientificProduct"
+              }
+            }
+          },
+          "required": [
+            "candidates",
+            "page",
+            "available_candidate_types",
+            "execution_reference",
+            "scientific_products"
+          ]
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
+    {
+      "if": {
+        "properties": {
+          "is_mock": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "properties": {
+              "candidates": {
+                "items": {
+                  "properties": {
+                    "is_mock": {
+                      "const": true
+                    },
+                    "validation_status": {
+                      "const": "unreviewed"
+                    },
+                    "evidence": {
+                      "items": {
+                        "properties": {
+                          "is_mock": {
+                            "const": true
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_mock": {
+            "const": false
+          },
+          "data": {
+            "properties": {
+              "candidates": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "state": {
+            "properties": {
+              "algorithm_execution": {
+                "const": "completed"
+              },
+              "data_readiness": {
+                "properties": {
+                  "allow_scientific_execution": {
+                    "const": true
+                  },
+                  "status": {
+                    "const": "ready"
+                  }
+                }
+              }
+            }
+          },
+          "data": {
+            "properties": {
+              "execution_reference": {
+                "type": "string",
+                "minLength": 1
+              },
+              "candidates": {
+                "items": {
+                  "properties": {
+                    "is_mock": {
+                      "const": false
+                    },
+                    "evidence": {
+                      "items": {
+                        "properties": {
+                          "is_mock": {
+                            "const": false
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "data_origin": {
+            "const": "science_result"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_mock": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "properties": {
+              "scientific_products": {
+                "items": {
+                  "properties": {
+                    "is_mock": {
+                      "const": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_mock": {
+            "const": false
+          },
+          "data": {
+            "properties": {
+              "scientific_products": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data_origin": {
+            "const": "science_result"
+          },
+          "state": {
+            "properties": {
+              "algorithm_execution": {
+                "const": "completed"
+              },
+              "data_readiness": {
+                "properties": {
+                  "status": {
+                    "const": "ready"
+                  },
+                  "allow_scientific_execution": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          },
+          "data": {
+            "properties": {
+              "scientific_products": {
+                "items": {
+                  "properties": {
+                    "is_mock": {
+                      "const": false
+                    },
+                    "provenance": {
+                      "properties": {
+                        "synthetic": {
+                          "const": false
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "properties": {
+              "ui_availability": {
+                "enum": [
+                  "loading",
+                  "empty",
+                  "unavailable"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "properties": {
+              "candidates": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_mock": {
+            "const": false
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "properties": {
+              "candidates": {
+                "items": {
+                  "properties": {
+                    "evidence": {
+                      "items": {
+                        "properties": {
+                          "asset": {
+                            "$ref": "../shared/common.schema.json#/$defs/PublishedAsset"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "unevaluatedProperties": false
+}

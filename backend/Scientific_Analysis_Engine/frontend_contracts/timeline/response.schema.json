@@ -1,0 +1,518 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vega.example/contracts/timeline/response.schema.json",
+  "allOf": [
+    {
+      "$ref": "../shared/common.schema.json#/$defs/Envelope"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "interface": {
+          "const": "timeline"
+        },
+        "data": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "observations": {
+              "type": "array",
+              "items": {
+                "$ref": "../shared/common.schema.json#/$defs/Observation"
+              }
+            },
+            "compatibility_groups": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "group_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "product_ids": {
+                    "type": "array",
+                    "minItems": 2,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "bandpass_status": {
+                    "enum": [
+                      "verified_compatible",
+                      "incompatible",
+                      "unknown"
+                    ]
+                  },
+                  "alignment_status": {
+                    "enum": [
+                      "registered_verified",
+                      "native_unaligned",
+                      "unknown"
+                    ]
+                  },
+                  "calibration_status": {
+                    "enum": [
+                      "verified",
+                      "unknown"
+                    ]
+                  },
+                  "eligibility": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "mode": {
+                        "enum": [
+                          "visual_only",
+                          "scientific",
+                          "blocked"
+                        ]
+                      },
+                      "blink": {
+                        "type": "boolean"
+                      },
+                      "difference": {
+                        "type": "boolean"
+                      },
+                      "scientific_comparison": {
+                        "type": "boolean"
+                      },
+                      "reason_codes": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    },
+                    "required": [
+                      "mode",
+                      "blink",
+                      "difference",
+                      "scientific_comparison",
+                      "reason_codes"
+                    ]
+                  },
+                  "difference_asset": {
+                    "anyOf": [
+                      {
+                        "$ref": "../shared/common.schema.json#/$defs/Asset"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "group_id",
+                  "product_ids",
+                  "bandpass_status",
+                  "alignment_status",
+                  "calibration_status",
+                  "eligibility",
+                  "difference_asset"
+                ],
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "eligibility": {
+                          "properties": {
+                            "scientific_comparison": {
+                              "const": true
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "bandpass_status": {
+                          "const": "verified_compatible"
+                        },
+                        "alignment_status": {
+                          "const": "registered_verified"
+                        },
+                        "calibration_status": {
+                          "const": "verified"
+                        },
+                        "eligibility": {
+                          "properties": {
+                            "mode": {
+                              "const": "scientific"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "eligibility": {
+                          "properties": {
+                            "mode": {
+                              "const": "visual_only"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "eligibility": {
+                          "properties": {
+                            "scientific_comparison": {
+                              "const": false
+                            },
+                            "difference": {
+                              "const": false
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "eligibility": {
+                          "properties": {
+                            "difference": {
+                              "const": true
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "difference_asset": {
+                          "type": "object"
+                        },
+                        "eligibility": {
+                          "properties": {
+                            "scientific_comparison": {
+                              "const": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "selected_product_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "page": {
+              "$ref": "../shared/common.schema.json#/$defs/Page"
+            },
+            "blink_speed_ms": {
+              "type": "integer",
+              "minimum": 250,
+              "maximum": 2000
+            },
+            "scientific_products": {
+              "type": "array",
+              "items": {
+                "$ref": "../shared/common.schema.json#/$defs/ScientificProduct"
+              }
+            }
+          },
+          "required": [
+            "observations",
+            "compatibility_groups",
+            "selected_product_ids",
+            "page",
+            "blink_speed_ms",
+            "scientific_products"
+          ]
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
+    {
+      "if": {
+        "properties": {
+          "data": {
+            "properties": {
+              "compatibility_groups": {
+                "contains": {
+                  "properties": {
+                    "eligibility": {
+                      "properties": {
+                        "scientific_comparison": {
+                          "const": true
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "eligibility"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "state": {
+            "properties": {
+              "data_readiness": {
+                "properties": {
+                  "status": {
+                    "const": "ready"
+                  },
+                  "allow_scientific_execution": {
+                    "const": true
+                  }
+                }
+              },
+              "algorithm_execution": {
+                "const": "completed"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_mock": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "properties": {
+              "scientific_products": {
+                "items": {
+                  "properties": {
+                    "is_mock": {
+                      "const": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_mock": {
+            "const": false
+          },
+          "data": {
+            "properties": {
+              "scientific_products": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data_origin": {
+            "const": "science_result"
+          },
+          "state": {
+            "properties": {
+              "algorithm_execution": {
+                "const": "completed"
+              },
+              "data_readiness": {
+                "properties": {
+                  "status": {
+                    "const": "ready"
+                  },
+                  "allow_scientific_execution": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          },
+          "data": {
+            "properties": {
+              "scientific_products": {
+                "items": {
+                  "properties": {
+                    "is_mock": {
+                      "const": false
+                    },
+                    "provenance": {
+                      "properties": {
+                        "synthetic": {
+                          "const": false
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_mock": {
+            "const": false
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "properties": {
+              "observations": {
+                "items": {
+                  "properties": {
+                    "is_mock": {
+                      "const": false
+                    },
+                    "preview": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "properties": {
+                            "availability": {
+                              "enum": [
+                                "published",
+                                "proposed"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_mock": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "properties": {
+              "observations": {
+                "items": {
+                  "properties": {
+                    "is_mock": {
+                      "const": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "properties": {
+              "ui_availability": {
+                "enum": [
+                  "loading",
+                  "empty",
+                  "unavailable"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "properties": {
+              "observations": {
+                "maxItems": 0
+              },
+              "compatibility_groups": {
+                "maxItems": 0
+              },
+              "selected_product_ids": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_mock": {
+            "const": false
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "properties": {
+              "compatibility_groups": {
+                "items": {
+                  "properties": {
+                    "difference_asset": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "$ref": "../shared/common.schema.json#/$defs/PublishedAsset"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "unevaluatedProperties": false
+}

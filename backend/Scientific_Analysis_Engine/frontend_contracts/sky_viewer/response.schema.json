@@ -1,0 +1,759 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vega.example/contracts/sky_viewer/response.schema.json",
+  "allOf": [
+    {
+      "$ref": "../shared/common.schema.json#/$defs/Envelope"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "interface": {
+          "const": "sky_viewer"
+        },
+        "data": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "observations": {
+              "type": "array",
+              "items": {
+                "$ref": "../shared/common.schema.json#/$defs/Observation"
+              }
+            },
+            "selected_product_id": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "image": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "asset": {
+                      "$ref": "../shared/common.schema.json#/$defs/Asset"
+                    },
+                    "science_shape": {
+                      "type": "array",
+                      "minItems": 2,
+                      "maxItems": 2,
+                      "items": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
+                    },
+                    "raster_dimensions": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "width": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "height": {
+                          "type": "integer",
+                          "minimum": 1
+                        }
+                      },
+                      "required": [
+                        "width",
+                        "height"
+                      ]
+                    },
+                    "unit": {
+                      "const": "MJy/sr"
+                    },
+                    "original_unit": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "raster_edge_to_science_pixel_affine": {
+                      "type": "array",
+                      "items": {
+                        "type": "array",
+                        "minItems": 3,
+                        "maxItems": 3,
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "minItems": 2,
+                      "maxItems": 2
+                    },
+                    "orientation": {
+                      "const": "native_detector_axes_y_up"
+                    },
+                    "display_only": {
+                      "const": true
+                    },
+                    "stretch": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "method": {
+                          "enum": [
+                            "linear",
+                            "asinh",
+                            "log"
+                          ]
+                        },
+                        "low": {
+                          "type": "number"
+                        },
+                        "high": {
+                          "type": "number"
+                        },
+                        "colormap": {
+                          "enum": [
+                            "gray",
+                            "viridis",
+                            "magma"
+                          ]
+                        },
+                        "nonfinite_display": {
+                          "const": "transparent_checkerboard"
+                        }
+                      },
+                      "required": [
+                        "method",
+                        "low",
+                        "high",
+                        "colormap",
+                        "nonfinite_display"
+                      ]
+                    },
+                    "wcs": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "frame": {
+                          "const": "ICRS"
+                        },
+                        "projection": {
+                          "enum": [
+                            "TAN-SIP",
+                            "other_verified"
+                          ]
+                        },
+                        "interaction_mode": {
+                          "const": "backend_pixel_readout"
+                        },
+                        "readout_operation": {
+                          "const": "POST /api/v1/pixel-readouts (proposed)"
+                        },
+                        "header_reference": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "roundtrip_tolerance_px": {
+                          "type": "number",
+                          "exclusiveMinimum": 0
+                        }
+                      },
+                      "required": [
+                        "frame",
+                        "projection",
+                        "interaction_mode",
+                        "readout_operation",
+                        "header_reference",
+                        "roundtrip_tolerance_px"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "asset",
+                    "science_shape",
+                    "raster_dimensions",
+                    "unit",
+                    "original_unit",
+                    "raster_edge_to_science_pixel_affine",
+                    "orientation",
+                    "display_only",
+                    "stretch",
+                    "wcs"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "available_layers": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "image",
+                  "analysis_mask",
+                  "background_mask",
+                  "source_overlay",
+                  "zodi"
+                ]
+              }
+            },
+            "source_overlay": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "availability": {
+                  "enum": [
+                    "available",
+                    "unavailable"
+                  ]
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "source_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "position": {
+                        "$ref": "../shared/common.schema.json#/$defs/Position"
+                      },
+                      "is_mock": {
+                        "type": "boolean"
+                      },
+                      "measurements": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "../shared/common.schema.json#/$defs/Measurement"
+                        }
+                      }
+                    },
+                    "required": [
+                      "source_id",
+                      "position",
+                      "is_mock",
+                      "measurements"
+                    ]
+                  }
+                },
+                "method": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "method_version": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "validation_status": {
+                  "enum": [
+                    "not_evaluated",
+                    "unvalidated",
+                    "validated"
+                  ]
+                },
+                "algorithm_execution": {
+                  "enum": [
+                    "not_implemented",
+                    "not_run",
+                    "running",
+                    "completed",
+                    "failed"
+                  ]
+                },
+                "readiness": {
+                  "$ref": "../shared/common.schema.json#/$defs/Readiness"
+                }
+              },
+              "required": [
+                "availability",
+                "items",
+                "method",
+                "method_version",
+                "validation_status",
+                "algorithm_execution",
+                "readiness"
+              ],
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "availability": {
+                        "const": "unavailable"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "items": {
+                        "maxItems": 0
+                      }
+                    }
+                  },
+                  "else": {
+                    "properties": {
+                      "method": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "method_version": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "algorithm_execution": {
+                        "const": "completed"
+                      },
+                      "readiness": {
+                        "properties": {
+                          "status": {
+                            "const": "ready"
+                          },
+                          "allow_scientific_execution": {
+                            "const": true
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "scientific_products": {
+              "type": "array",
+              "items": {
+                "$ref": "../shared/common.schema.json#/$defs/ScientificProduct"
+              }
+            }
+          },
+          "required": [
+            "observations",
+            "selected_product_id",
+            "image",
+            "available_layers",
+            "source_overlay",
+            "scientific_products"
+          ]
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "properties": {
+              "ui_availability": {
+                "enum": [
+                  "available",
+                  "partial"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "properties": {
+              "image": {
+                "type": "object"
+              },
+              "selected_product_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "observations": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_mock": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "properties": {
+              "source_overlay": {
+                "properties": {
+                  "items": {
+                    "items": {
+                      "properties": {
+                        "is_mock": {
+                          "const": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_mock": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "properties": {
+              "scientific_products": {
+                "items": {
+                  "properties": {
+                    "is_mock": {
+                      "const": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_mock": {
+            "const": false
+          },
+          "data": {
+            "properties": {
+              "scientific_products": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data_origin": {
+            "const": "science_result"
+          },
+          "state": {
+            "properties": {
+              "algorithm_execution": {
+                "const": "completed"
+              },
+              "data_readiness": {
+                "properties": {
+                  "status": {
+                    "const": "ready"
+                  },
+                  "allow_scientific_execution": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          },
+          "data": {
+            "properties": {
+              "scientific_products": {
+                "items": {
+                  "properties": {
+                    "is_mock": {
+                      "const": false
+                    },
+                    "provenance": {
+                      "properties": {
+                        "synthetic": {
+                          "const": false
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_mock": {
+            "const": false
+          },
+          "data": {
+            "properties": {
+              "source_overlay": {
+                "properties": {
+                  "availability": {
+                    "const": "available"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data_origin": {
+            "const": "science_result"
+          },
+          "state": {
+            "properties": {
+              "algorithm_execution": {
+                "const": "completed"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_mock": {
+            "const": false
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "properties": {
+              "observations": {
+                "items": {
+                  "properties": {
+                    "is_mock": {
+                      "const": false
+                    },
+                    "preview": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "properties": {
+                            "availability": {
+                              "enum": [
+                                "published",
+                                "proposed"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_mock": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "properties": {
+              "observations": {
+                "items": {
+                  "properties": {
+                    "is_mock": {
+                      "const": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "properties": {
+              "ui_availability": {
+                "enum": [
+                  "loading",
+                  "empty",
+                  "unavailable"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "properties": {
+              "observations": {
+                "maxItems": 0
+              },
+              "image": {
+                "type": "null"
+              },
+              "selected_product_id": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_mock": {
+            "const": false
+          },
+          "data": {
+            "properties": {
+              "image": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "properties": {
+              "image": {
+                "properties": {
+                  "asset": {
+                    "properties": {
+                      "availability": {
+                        "enum": [
+                          "published",
+                          "proposed"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "properties": {
+              "scientific_validation": {
+                "const": "validated"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "properties": {
+              "image": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "properties": {
+                      "asset": {
+                        "properties": {
+                          "availability": {
+                            "const": "published"
+                          },
+                          "sha256": {
+                            "type": "string",
+                            "pattern": "^[0-9a-f]{64}$"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_mock": {
+            "const": false
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "properties": {
+              "image": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "properties": {
+                      "asset": {
+                        "$ref": "../shared/common.schema.json#/$defs/PublishedAsset"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "unevaluatedProperties": false
+}

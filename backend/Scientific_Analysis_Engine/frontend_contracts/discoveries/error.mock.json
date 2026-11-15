@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0.0",
+  "interface": "discoveries",
+  "is_mock": true,
+  "data_origin": "mock",
+  "request_id": "mock-request-1",
+  "run_id": "mock-run-1",
+  "target": {
+    "target_id": "mock-target-1",
+    "input_method": "coordinates",
+    "original_input": {
+      "ra": 10,
+      "dec": 20
+    },
+    "target_name": null,
+    "canonical_name": null,
+    "position": {
+      "ra_deg": 10,
+      "dec_deg": 20,
+      "frame": "ICRS"
+    },
+    "fov_deg": 0.1,
+    "fov_semantics": "circular angular diameter",
+    "goal": "discoveries"
+  },
+  "state": {
+    "backend_processing": {
+      "status": "failed",
+      "progress_fraction": 1,
+      "stage": null
+    },
+    "data_readiness": {
+      "status": "conditional",
+      "allow_preparation": true,
+      "allow_scientific_execution": false,
+      "reason_codes": [
+        "MOCK_FIXTURE"
+      ],
+      "missing_requirements": [
+        "Real algorithms and calibration"
+      ],
+      "execution_conditions": [
+        "Do not use mock data for science"
+      ],
+      "policy_version": "mock-policy-1"
+    },
+    "algorithm_execution": "not_run",
+    "scientific_validation": "not_evaluated",
+    "ui_availability": "error"
+  },
+  "features": {
+    "image_display": {
+      "availability": "unavailable",
+      "allow_interaction": false,
+      "implementation_status": "mock_only",
+      "reason_codes": [
+        "MOCK_FIXTURE"
+      ]
+    },
+    "pixel_readout": {
+      "availability": "unavailable",
+      "allow_interaction": false,
+      "implementation_status": "planned",
+      "reason_codes": [
+        "API_NOT_IMPLEMENTED"
+      ]
+    }
+  },
+  "warnings": [
+    {
+      "code": "MOCK_NOT_SCIENCE",
+      "message": "Synthetic UI fixture; not NASA observations or scientific results",
+      "severity": "warning",
+      "scope": "response",
+      "retryable": false
+    }
+  ],
+  "errors": [
+    {
+      "code": "MOCK_SERVICE_ERROR",
+      "message": "Synthetic failure; no real service called",
+      "severity": "error",
+      "scope": "discoveries",
+      "retryable": true
+    }
+  ],
+  "provenance": {
+    "synthetic": true,
+    "source_service": null,
+    "references": [],
+    "method": "frontend-fixture",
+    "method_version": "1",
+    "limitations": [
+      "Proposed API routes are not deployed",
+      "Scientific algorithms and Result Formatter are not implemented"
+    ],
+    "validation_reference": null
+  },
+  "data": {
+    "candidates": [],
+    "page": {
+      "next_cursor": null,
+      "has_more": false,
+      "returned": 0
+    },
+    "available_candidate_types": [],
+    "execution_reference": null,
+    "scientific_products": []
+  }
+}

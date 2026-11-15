@@ -1,0 +1,5 @@
+# Request validation
+
+Validates normalized user input against `contracts/input_contract.json` with jsonschema and checks finite ICRS coordinates, resolved target, ready status, goals, and circular FOV diameter. FOV limits default to 0.001–1.0 degrees inclusive; configure with `ValidationSettings`. These are operational limits, not NASA limits. Values are never corrected. UUID format is checked by the input contract; global uniqueness belongs to request creation and storage.
+
+`report, original = validate_request(request)` returns the identical original object on acceptance and `None` on rejection. A report contains request_id, accepted/rejected status, field-path errors, warnings, UTC validated_at, and report schema_version. `save_report(report)` writes exclusively to a unique file in data/validation. Example: a ready request at RA 10, Dec 20 with 0.1 degree FOV is accepted; an FOV of 2 degrees is rejected. Run `python -m pytest tests` from the pipeline directory. This stage does not query the archive or establish observational or scientific quality.
